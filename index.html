@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-950 select-none">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="theme-color" content="#22c55e"/>
+    <title>David Andrés Gutiérrez - Tarjeta Digital Profesional</title>
+    
+    <!-- Tailwind CSS & Iconografía Oficial -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in-up { opacity: 0; animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        
+        /* Wow Effect: Brillo perimetral dinámico en azul corporativo */
+        @keyframes brandGlow {
+            0%, 100% { border-color: rgba(29, 78, 216, 0.4); box-shadow: 0 0 12px rgba(34, 197, 94, 0.3); }
+            50% { border-color: rgba(34, 197, 94, 0.8); box-shadow: 0 0 20px rgba(29, 78, 216, 0.5); }
+        }
+        .wow-profile { animation: brandGlow 4s infinite ease-in-out; }
+        
+        /* Conversión: Pulso controlado para botón principal de WhatsApp */
+        @keyframes whatsappPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 8px 20px -4px rgba(37, 211, 102, 0.4); }
+            50% { transform: scale(1.02); box-shadow: 0 14px 25px -4px rgba(37, 211, 102, 0.6); }
+        }
+        .pulse-whatsapp { animation: whatsappPulse 2s infinite ease-in-out; }
+        
+        .modal-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 20px; opacity: 0; visibility: hidden; transition: opacity 0.2s ease, visibility 0.2s ease; }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-content { background: #ffffff; border-radius: 28px; width: 100%; max-w: 326px; transform: scale(0.96); transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); border: 1px solid rgba(29, 78, 216, 0.15); }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+        .app-container { height: 100vh; height: 100dvh; }
+        .toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(20px); background: #1e293b; color: #fff; padding: 8px 20px; border-radius: 999px; font-size: 13px; opacity: 0; pointer-events: none; transition: all 0.3s ease; z-index: 2000; }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    </style>
+</head>
+<body class="bg-slate-950 w-full flex justify-center items-center overflow-hidden">
+
+    <!-- 1. MODULO: SPLASH SCREEN -->
+    <div id="splash" class="fixed inset-0 bg-emerald-600 flex flex-col items-center justify-center z-[9999] transition-opacity duration-400">
+        <div class="text-center animate-pulse">
+            <div class="w-20 h-20 mx-auto bg-white rounded-full flex items-center justify-center shadow-2xl border-4 border-blue-700 mb-3">
+                <i class="fas fa-chart-line text-3xl text-blue-700"></i>
+            </div>
+            <h1 class="text-2xl font-black text-white tracking-wider">DAVID ANDRÉS G.</h1>
+            <p class="text-emerald-100 text-[10px] font-bold uppercase tracking-widest mt-1">Ventas & Avalúos</p>
+        </div>
+    </div>
+
+    <!-- CHASIS APP PREMIUM FIJA (MANDATORIO: SIN SCROLL DE FONDO) -->
+    <div class="app-container w-full max-w-[380px] bg-white relative flex flex-col justify-between overflow-hidden shadow-2xl">
+        
+        <!-- CONTENIDO INTERNO DE PANTALLA -->
+        <div class="flex-grow flex flex-col justify-between pb-28 overflow-y-auto">
+            
+            <!-- 2. MODULO: PORTADA & HERO (Fiel a la paleta verde/azul oficial) -->
+            <header class="relative bg-gradient-to-b from-emerald-500 via-emerald-600 to-emerald-700 pt-6 pb-6 px-5 text-center text-white rounded-b-[40px] shadow-2xl flex-shrink-0 border-b border-blue-700/20">
+                <div class="absolute top-3 right-4 bg-blue-700 text-white font-black px-2.5 py-0.5 rounded-full text-[8px] uppercase tracking-wider shadow-md">
+                    Medellín
+                </div>
+                
+                <h2 class="text-2xl font-black text-white mt-2 tracking-tight">David Andrés Gutiérrez</h2>
+                <p class="text-emerald-100 font-bold text-[10px] uppercase tracking-widest mt-0.5">Administrador de Empresas Agropecuarias</p>
+                
+                <!-- ZONA CENTRAL DE SEGURIDAD DEL LOGO "DG" VECTORIAL INLINE (EVITA CORTES) -->
+                <div class="w-24 h-24 mx-auto bg-white rounded-full flex flex-col items-center justify-center border-4 wow-profile p-1.5 my-3 shadow-lg block relative">
+                    <div class="text-blue-700 font-black text-3xl tracking-tighter flex items-center justify-center h-full select-none">
+                        DG
+                    </div>
+                    <div class="absolute bottom-1 inset-x-0 text-center">
+                        <span class="bg-blue-700 text-white text-[7px] font-black uppercase px-1.5 py-0.5 rounded-full tracking-tighter">Ventas · Avalúos</span>
+                    </div>
+                </div>
+                
+                <div class="bg-black/10 rounded-xl p-2 max-w-[240px] mx-auto shadow-inner">
+                    <span class="text-[9px] block text-white/90 font-semibold uppercase tracking-wider"><i class="fas fa-seedling mr-1"></i> Gestión & Consultoría Agropecuaria</span>
+                </div>
+            </header>
+
+            <!-- CONTENIDO CENTRAL OPERATIVO -->
+            <div class="px-5 space-y-3.5 flex-grow flex flex-col justify-center mt-2">
+                
+                <!-- 3. MODULO: BOTONES RÁPIDOS / CTA DE ALTA CONVERSIÓN -->
+                <div class="fade-in-up">
+                    <a href="https://wa.me/573206425826?text=Hola%20David%20Andr%C3%A9s,%20solicito%20asesor%C3%ADa%20sobre%20ventas%20o%20aval%C3%BAos%20agropecuarios" target="_blank" class="w-full flex items-center justify-center bg-[#25D366] text-white font-black py-3.5 px-4 rounded-xl text-center text-xs uppercase tracking-wider transition-transform transform active:scale-95 pulse-whatsapp">
+                        <i class="fab fa-whatsapp text-xl mr-2 text-white"></i>Contactar por WhatsApp
+                    </a>
+                </div>
+
+                <!-- 5. MODULO: SERVICIOS RESUMIDOS (GLASSMORPHISM CARDS) -->
+                <div class="grid grid-cols-2 gap-2">
+                    <div class="bg-slate-50 border border-slate-200 p-2.5 rounded-xl flex items-center gap-2 shadow-sm">
+                        <div class="w-6 h-6 bg-emerald-100 text-emerald-700 rounded-lg flex items-center justify-center text-xs flex-shrink-0 shadow-inner"><i class="fas fa-gavel"></i></div>
+                        <span class="text-[10px] font-bold text-slate-700 leading-tight">Avalúos Comerciales</span>
+                    </div>
+                    <div class="bg-slate-50 border border-slate-200 p-2.5 rounded-xl flex items-center gap-2 shadow-sm">
+                        <div class="w-6 h-6 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center text-xs flex-shrink-0 shadow-inner"><i class="fas fa-sign-campground"></i></div>
+                        <span class="text-[10px] font-bold text-slate-700 leading-tight">Venta de Predios</span>
+                    </div>
+                    <div class="bg-slate-50 border border-slate-200 p-2.5 rounded-xl flex items-center gap-2 shadow-sm">
+                        <div class="w-6 h-6 bg-emerald-100 text-emerald-700 rounded-lg flex items-center justify-center text-xs flex-shrink-0 shadow-inner"><i class="fas fa-cow"></i></div>
+                        <span class="text-[10px] font-bold text-slate-700 leading-tight">Administración Rural</span>
+                    </div>
+                    <div class="bg-slate-50 border border-slate-200 p-2.5 rounded-xl flex items-center gap-2 shadow-sm">
+                        <div class="w-6 h-6 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center text-xs flex-shrink-0 shadow-inner"><i class="fas fa-paste"></i></div>
+                        <span class="text-[10px] font-bold text-slate-700 leading-tight">Estudios Técnicos</span>
+                    </div>
+                </div>
+
+                <!-- ENLACE TELEFÓNICO DIRECTO NATIVO -->
+                <div class="fade-in-up">
+                    <a href="tel:+573206425826" class="w-full bg-slate-100 border border-slate-200 py-2.5 px-2 rounded-xl flex items-center justify-center gap-1.5 text-[10px] font-bold text-blue-700 transition-colors hover:bg-slate-200">
+                        <i class="fas fa-phone animate-pulse"></i> Llamar Celular: 320 642 5826
+                    </a>
+                </div>
+            </div>
+            
+            <!-- 11. MODULO: CTA ACCIONES COMPLEMENTARIAS -->
+            <div class="px-5 mt-auto pt-2">
+                <button id="btn-vcard" class="w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 text-xs uppercase tracking-wider border border-blue-600 shadow-md">
+                    <i class="fas fa-address-card"></i> Guardar Contacto en Agenda
+                </button>
+            </div>
+        </div>
+
+        <!-- 4 y 12. MODULO: BARRA DE NAVEGACIÓN INFERIOR & PIE DE TARJETA CON TU MARCA -->
+        <div class="absolute bottom-0 inset-x-0 bg-slate-950 border-t border-white/5 z-20 flex flex-col shadow-2xl">
+            <nav class="px-2 py-2.5 flex justify-around items-center">
+                <button id="nav-services" class="flex flex-col items-center justify-center text-slate-400 hover:text-emerald-400 w-12 transition-colors">
+                    <i class="fas fa-briefcase text-base"></i><span class="text-[9px] font-bold mt-1">Servicios</span>
+                </button>
+                <button id="nav-gallery" class="flex flex-col items-center justify-center text-slate-400 hover:text-emerald-400 w-12 transition-colors">
+                    <i class="fas fa-images text-base"></i><span class="text-[9px] font-bold mt-1">Evidencia</span>
+                </button>
+                <button id="nav-testimonials" class="flex flex-col items-center justify-center text-slate-400 hover:text-emerald-400 w-12 transition-colors">
+                    <i class="fas fa-shield-halved text-base"></i><span class="text-[9px] font-bold mt-1">Garantía</span>
+                </button>
+                <button id="nav-coverage" class="flex flex-col items-center justify-center text-slate-400 hover:text-emerald-400 w-12 transition-colors">
+                    <i class="fas fa-map-location-dot text-base"></i><span class="text-[9px] font-bold mt-1">Oficina</span>
+                </button>
+                <button id="nav-share" class="flex flex-col items-center justify-center text-slate-400 hover:text-emerald-400 w-12 transition-colors">
+                    <i class="fas fa-qrcode text-base"></i><span class="text-[9px] font-bold mt-1">QR</span>
+                </button>
+            </nav>
+            <!-- SELLO OFICIAL DE MARCA MANDATORIO V2.0 -->
+            <div class="text-center text-[8px] tracking-wider text-slate-600 font-medium bg-slate-950 pb-1.5 uppercase">
+                Creado por KONFÍO ZINC — Todos los derechos reservados
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= ELEMENTOS EMERGENTES MODULARES ================= -->
+    
+    <!-- 5. SERVICIOS DETALLADOS -->
+    <div id="modal-services" class="modal-overlay">
+        <div class="modal-content overflow-hidden shadow-2xl">
+            <div class="bg-blue-700 text-white p-4 font-bold text-xs uppercase tracking-wider flex justify-between items-center">
+                <span><i class="fas fa-briefcase mr-2"></i>Portafolio Profesional</span>
+                <button class="close-modal text-lg font-bold px-2 text-white/80 hover:text-white">&times;</button>
+            </div>
+            <div class="p-4 max-h-[60vh] overflow-y-auto space-y-3.5 text-slate-800">
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                    <h4 class="font-bold text-blue-900 text-xs uppercase">Avalúos Agropecuarios</h4>
+                    <p class="text-[11px] text-slate-600 mt-1 leading-normal">Valoración experta, técnica y comercial de predios rurales, fincas productivas e infraestructura del sector.</p>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                    <h4 class="font-bold text-blue-900 text-xs uppercase">Ventas e Intermediación</h4>
+                    <p class="text-[11px] text-slate-600 mt-1 leading-normal">Asesoría estratégica para la comercialización segura y eficiente de fincas, terrenos y activos agropecuarios.</p>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                    <h4 class="font-bold text-blue-900 text-xs uppercase">Administración de Fincas</h4>
+                    <p class="text-[11px] text-slate-600 mt-1 leading-normal">Optimización de recursos corporativos, control de producción y planeación administrativa en empresas del campo.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6 y 7. GALERÍA & VIDEOS -->
+    <div id="modal-gallery" class="modal-overlay">
+        <div class="modal-content overflow-hidden shadow-2xl">
+            <div class="bg-blue-700 text-white p-4 font-bold text-xs uppercase tracking-wider flex justify-between items-center">
+                <span><i class="fas fa-images mr-2"></i>Evidencia de Campo</span>
+                <button class="close-modal text-lg font-bold px-2 text-white/80 hover:text-white">&times;</button>
+            </div>
+            <div class="p-4 space-y-3">
+                <div class="rounded-xl overflow-hidden bg-slate-100 border border-slate-200">
+                    <img src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=400" alt="Finca Raíz Rural" class="w-full h-32 object-cover">
+                    <p class="text-[10px] p-2 text-slate-600 text-center font-medium">Inspección técnica de terrenos y peritajes comerciales de alta precisión.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 8. TESTIMONIOS -->
+    <div id="modal-testimonials" class="modal-overlay">
+        <div class="modal-content overflow-hidden shadow-2xl">
+            <div class="bg-blue-700 text-white p-4 font-bold text-xs uppercase tracking-wider flex justify-between items-center">
+                <span><i class="fas fa-shield-halved mr-2"></i>Garantía de Servicio</span>
+                <button class="close-modal text-lg font-bold px-2 text-white/80 hover:text-white">&times;</button>
+            </div>
+            <div class="p-4 space-y-3 text-slate-800">
+                <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-100">
+                    <h4 class="font-bold text-emerald-900 text-xs uppercase">Transparencia y Rigor Técnico</h4>
+                    <p class="text-[11px] text-slate-700 italic leading-relaxed mt-1">Cada avalúo y proceso de venta se rige bajo normativas comerciales vigentes, garantizando informes certeros para la toma de decisiones empresariales.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 9 y 10. COBERTURA E INFORMACIÓN -->
+    <div id="modal-coverage" class="modal-overlay">
+        <div class="modal-content overflow-hidden shadow-2xl">
+            <div class="bg-blue-700 text-white p-4 font-bold text-xs uppercase tracking-wider flex justify-between items-center">
+                <span><i class="fas fa-map-location-dot mr-2"></i>Ubicación e Información</span>
+                <button class="close-modal text-lg font-bold px-2 text-white/80 hover:text-white">&times;</button>
+            </div>
+            <div class="p-4 space-y-3 text-slate-800 text-[11px]">
+                <div class="p-3 bg-slate-50 rounded-xl border flex items-start gap-2.5">
+                    <i class="fas fa-location-dot text-blue-700 text-sm mt-0.5"></i>
+                    <div>
+                        <h5 class="font-bold text-slate-800">Oficina Principal</h5>
+                        <p class="text-[10px] text-slate-600 mt-0.5 font-semibold">Carrera 43 No. 10 - 47, Medellín, Colombia.</p>
+                    </div>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border space-y-1.5 font-medium">
+                    <div class="flex justify-between border-b pb-1"><span>Correo Oficial:</span><span class="text-slate-900 font-bold lowercase">davidandresgutierrez@gmail.com</span></div>
+                    <div class="flex justify-between border-b pb-1"><span>Atención:</span><span class="text-slate-900">Lunes a Sábado (Cita previa)</span></div>
+                    <div class="flex justify-between"><span>Cobertura:</span><span class="text-emerald-700 font-bold">Antioquia / Nacional</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- QR COMPARTIR -->
+    <div id="modal-qr" class="modal-overlay">
+        <div class="modal-content overflow-hidden shadow-2xl">
+            <div class="bg-blue-700 text-white p-4 font-bold text-xs uppercase tracking-wider flex justify-between items-center">
+                <span><i class="fas fa-qrcode mr-2"></i>Compartir Perfil</span>
+                <button class="close-modal text-lg font-bold px-2 text-white/80 hover:text-white">&times;</button>
+            </div>
+            <div class="p-5 text-center">
+                <div id="qrcode" class="flex justify-center p-2.5 bg-white border border-slate-200 rounded-xl inline-block mx-auto shadow-sm"></div>
+                <p class="text-[10px] text-slate-500 mt-3 px-1 leading-normal">Escanea este código desde otro celular para abrir al instante la Tarjeta Digital Profesional de David Andrés.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Desvanecimiento controlado del Splash Screen
+            setTimeout(() => {
+                const splash = document.getElementById('splash');
+                if(splash) {
+                    splash.style.opacity = '0';
+                    setTimeout(() => splash.style.display = 'none', 400);
+                }
+            }, 1000);
+
+            // Controlador de Modales
+            const setupAppModal = (triggerId, modalId) => {
+                const trigger = document.getElementById(triggerId);
+                const modal = document.getElementById(modalId);
+                if (!trigger || !modal) return;
+                
+                trigger.addEventListener('click', (e) => { e.preventDefault(); modal.classList.add('active'); });
+                modal.querySelector('.close-modal').addEventListener('click', () => modal.classList.remove('active'));
+                modal.addEventListener('click', (e) => { if(e.target === modal) modal.classList.remove('active'); });
+            };
+
+            const urlReal = window.location.href;
+
+            // Inicializar botones táctiles de la barra inferior
+            setupAppModal('nav-services', 'modal-services');
+            setupAppModal('nav-gallery', 'modal-gallery');
+            setupAppModal('nav-testimonials', 'modal-testimonials');
+            setupAppModal('nav-coverage', 'modal-coverage');
+            setupAppModal('nav-share', 'modal-qr');
+
+            // Generador de QR dinámico a la URL activa
+            const qrBox = document.getElementById("qrcode");
+            if(qrBox) {
+                new QRCode(qrBox, {
+                    text: urlReal,
+                    width: 144,
+                    height: 144,
+                    colorDark : "#1d4ed8",
+                    colorLight : "#ffffff",
+                    correctLevel : QRCode.CorrectLevel.H
+                });
+            }
+
+            // Toast de Feedback
+            const toast = document.getElementById('toast');
+            const showToast = (msg) => { 
+                toast.textContent = msg; 
+                toast.classList.add('show'); 
+                setTimeout(() => toast.classList.remove('show'), 2200); 
+            };
+
+            // Descarga de tarjeta vCard corporativa (.vcf)
+            const btnVcard = document.getElementById('btn-vcard');
+            if (btnVcard) {
+                btnVcard.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const vCardData = `BEGIN:VCARD\nVERSION:3.0\nFN:David Andres Gutierrez\nORG:Consultoria Agropecuaria\nTITLE:Administrador de Empresas Agropecuarias\nTEL;TYPE=CELL,VOICE;PREF=1:+573206425826\nEMAIL:davidandresgutierrez@gmail.com\nADR;TYPE=WORK:;;Carrera 43 No. 10 - 47;Medellin;;;Colombia\nNOTE:Especialista en Ventas y Avaluos de fincas y predios rurales.\nURL:${urlReal}\nEND:VCARD`;
+                    const blob = new Blob([vCardData], { type: 'text/vcard;charset=utf-8' });
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = 'David_Andres_Gutierrez.vcf';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(url);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
