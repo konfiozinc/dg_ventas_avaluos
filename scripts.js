@@ -1,34 +1,62 @@
-function openModal(id) { document.getElementById(id).classList.add('active'); }
-        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+// ============================================================
+// David Andrés Gutiérrez — lógica (plantilla base KONFÍO ZINC)
+// QR dinámico 160x160 + vCard + compartir + año + service worker
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+  const qrEl = document.getElementById('qrcode');
+  if (qrEl && typeof QRCode !== 'undefined') {
+    new QRCode(qrEl, {
+      text: window.location.href,
+      width: 160,
+      height: 160,
+      colorDark: '#0f172a',
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.H
+    });
+  }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const qrBox = document.getElementById("qrcode");
-            if(qrBox) {
-                new QRCode(qrBox, {
-                    text: window.location.href,
-                    width: 130,
-                    height: 130,
-                    colorDark : "#1d4ed8",
-                    colorLight : "#ffffff"
-                });
-            }
+  const copiar = (texto) => {
+    const ok = () => {};
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(texto).catch(() => {});
+    } else {
+      const ta = document.createElement('textarea');
+      ta.value = texto; ta.style.position = 'fixed'; ta.style.left = '-9999px';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); } catch (e) {}
+      ta.remove();
+    }
+    ok();
+  };
 
-            const toast = document.getElementById('toast');
-            const showToast = (msg) => {
-                toast.textContent = msg;
-                toast.style.display = 'block';
-                setTimeout(() => toast.style.display = 'none', 2200);
-            };
+  // Compartir nativo con respaldo a copiar enlace
+  document.getElementById('btn-share').addEventListener('click', async () => {
+    const data = { title: 'David Andrés Gutiérrez', text: 'Gestión y consultoría agropecuaria: avalúos, venta de predios y administración rural.', url: window.location.href };
+    if (navigator.share) {
+      try { await navigator.share(data); } catch (e) {}
+    } else {
+      copiar(window.location.href);
+    }
+  });
 
-            document.getElementById('btn-vcard').addEventListener('click', () => {
-                const vCardData = `BEGIN:VCARD\nVERSION:3.0\nFN:David Andrés Gutiérrez\nORG:Consultoría Agropecuaria\nTITLE:Administrador de Empresas Agropecuarias\nTEL;TYPE=CELL:+573206425826\nEMAIL:davidandresgutierrez@gmail.com\nADR;TYPE=WORK:;;Carrera 43 No. 10 - 47;Medellin;;;Colombia\nNOTE:Especialista en Ventas y Avalúos de fincas y predios rurales.\nEND:VCARD`;
-                const blob = new Blob([vCardData], { type: 'text/vcard;charset=utf-8' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'David_Andres_Gutierrez.vcf';
-                a.click();
-                URL.revokeObjectURL(url);
-                showToast('Contacto guardado en agenda');
-            });
-        });
+  // Guardar contacto (vCard)
+  document.getElementById('btn-vcard').addEventListener('click', () => {
+    const vCardData = 'BEGIN:VCARD\r\nVERSION:3.0\r\nFN:David Andrés Gutiérrez\r\nORG:Gestión & Consultoría Agropecuaria\r\nTITLE:Administrador de Empresas Agropecuarias\r\nTEL;TYPE=CELL:+573206425826\r\nEMAIL:davidandresgutierrez@gmail.com\r\nADR;TYPE=WORK:;;Carrera 43 No. 10 - 47;Medellín;;Antioquia;Colombia\r\nNOTE:Especialista en ventas y avalúos de fincas y predios rurales.\r\nEND:VCARD';
+    const blob = new Blob([vCardData], { type: 'text/vcard;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'David_Andres_Gutierrez.vcf';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1200);
+  });
+
+  // Año
+  const anio = document.getElementById('anio');
+  if (anio) anio.textContent = new Date().getFullYear();
+
+  // Service worker
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./service-worker.js').catch(() => {});
+  }
+});

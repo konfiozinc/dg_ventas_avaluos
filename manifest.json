@@ -1,0 +1,16 @@
+{
+  "name": "David Andrés Gutiérrez - Ventas y Avalúos",
+  "short_name": "DG Ventas-Avalúos",
+  "description": "Gestión y consultoría agropecuaria: avalúos comerciales, venta de predios, administración rural y estudios técnicos.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#16a34a",
+  "theme_color": "#16a34a",
+  "lang": "es",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/apple-touch-180.png", "sizes": "180x180", "type": "image/png", "purpose": "any" }
+  ]
+}
